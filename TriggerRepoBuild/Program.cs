@@ -18,7 +18,6 @@ namespace TriggerRepoBuild
         static void Main(string[] args)
         {
             CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed((arguments) => { Process(arguments); });
-            Console.ReadLine();
         }
 
         private static void Process(Options options)
