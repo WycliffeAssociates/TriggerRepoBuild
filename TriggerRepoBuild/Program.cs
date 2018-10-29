@@ -34,7 +34,7 @@ namespace TriggerRepoBuild
                 repo = parser.GetField(15);
                 user = parser.GetField(18);
                 HttpClient client = new HttpClient();
-                var repoResponse = client.GetAsync($"{options.GogsUrl}/api/v1/repos/{user}/{repo}").Result;
+                var repoResponse = client.GetAsync($"{options.GogsUrl}/api/v1/repos/{Uri.EscapeDataString(user)}/{Uri.EscapeDataString(repo)}").Result;
                 if ((int)repoResponse.StatusCode != 404)
                 {
                     RequestRepository repoObject = JsonConvert.DeserializeObject<RequestRepository>(repoResponse.Content.ReadAsStringAsync().Result);
@@ -136,7 +136,7 @@ namespace TriggerRepoBuild
             try
             {
 
-            Repository.Clone($"{gogsBaseUrl}/{user}/{repoName}.git", "tmp", cloneOptions);
+            Repository.Clone($"{gogsBaseUrl}/{Uri.EscapeDataString(user)}/{Uri.EscapeDataString(repoName)}.git", "tmp", cloneOptions);
             Repository repo = new Repository("tmp");
             foreach (var commit in repo.Commits.Take(numberOfCommits))
             {
