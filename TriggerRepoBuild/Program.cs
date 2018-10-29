@@ -85,6 +85,7 @@ namespace TriggerRepoBuild
                 commits = commits,
                 repository = new RequestRepository()
                 {
+                    default_branch = "master",
                     owner = repoOwner,
                     full_name = $"{user}/{repo}",
                     clone_url = $"{gitUrl}/{user}/{repo}.git",
