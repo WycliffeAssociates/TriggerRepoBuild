@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.Http;
 using LibGit2Sharp;
 using CsvHelper;
+using CsvHelper.Configuration;
 using CommandLine;
 
 namespace TriggerRepoBuild
@@ -27,12 +28,13 @@ namespace TriggerRepoBuild
 
             string user;
             string repo;
-            CsvReader parser = new CsvReader(new StreamReader(new FileStream(options.InputFile, FileMode.Open)));
+            CsvReader parser = new CsvReader(new StreamReader(new FileStream(options.InputFile, FileMode.Open)), new CsvHelper.Configuration.Configuration() { HasHeaderRecord = true });
             parser.Read();
+            parser.ReadHeader();
             while (parser.Read())
             {
-                repo = parser.GetField(15);
-                user = parser.GetField(18);
+                repo = parser.GetField(options.RepoField);
+                user = parser.GetField(options.UserField);
                 HttpClient client = new HttpClient();
                 var repoResponse = client.GetAsync($"{options.GogsUrl}/api/v1/repos/{Uri.EscapeDataString(user)}/{Uri.EscapeDataString(repo)}").Result;
                 if ((int)repoResponse.StatusCode != 404)

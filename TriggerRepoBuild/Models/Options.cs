@@ -24,6 +24,12 @@ namespace TriggerRepoBuild.Models
         public string User { get; set; }
 
         [Option('r',"renderurl", HelpText = "Render output url", Required = true)]
-        public string RenderUrl { get; internal set; }
+        public string RenderUrl { get; set; }
+
+        [Option("userfield", HelpText = "Name of user field in input csv", Default ="user_id", Required = true)]
+        public string UserField { get; set; }
+
+        [Option("repofield", HelpText = "Name of user field in input csv", Default ="repo_name", Required = true)]
+        public string RepoField { get; set; }
     }
 }
