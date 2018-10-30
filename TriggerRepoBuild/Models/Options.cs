@@ -29,7 +29,7 @@ namespace TriggerRepoBuild.Models
         [Option("userfield", HelpText = "Name of user field in input csv", Default ="user_id", Required = true)]
         public string UserField { get; set; }
 
-        [Option("repofield", HelpText = "Name of user field in input csv", Default ="repo_name", Required = true)]
+        [Option("repofield", HelpText = "Name of repo field in input csv", Default ="repo_name", Required = true)]
         public string RepoField { get; set; }
     }
 }
