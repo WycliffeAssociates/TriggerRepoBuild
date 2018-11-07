@@ -42,7 +42,7 @@ namespace TriggerRepoBuild
                     RequestRepository repoObject = JsonConvert.DeserializeObject<RequestRepository>(repoResponse.Content.ReadAsStringAsync().Result);
 
                     Console.WriteLine($"Processing: {repoObject.owner.username}/{repoObject.name}");
-                    if (IsStuck(repoObject.owner.username, repoObject.name, options.RenderUrl))
+                    if (IsStuck(repoObject.owner.username, repoObject.name, options.RenderUrl) || options.ForceRender)
                     {
                         Console.WriteLine("Repo is stuck");
                         TriggerRerender(secret, senderUserName, repoObject.owner.username, repoObject.name, options.WebhookEndpoint, options.GogsUrl);
