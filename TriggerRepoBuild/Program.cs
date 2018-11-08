@@ -44,7 +44,7 @@ namespace TriggerRepoBuild
                     Console.WriteLine($"Processing: {repoObject.owner.username}/{repoObject.name}");
                     if (IsStuck(repoObject.owner.username, repoObject.name, options.RenderUrl) || options.ForceRender)
                     {
-                        Console.WriteLine("Repo is stuck");
+                        Console.WriteLine("Triggering render");
                         TriggerRerender(secret, senderUserName, repoObject.owner.username, repoObject.name, options.WebhookEndpoint, options.GogsUrl);
                     }
                     else
