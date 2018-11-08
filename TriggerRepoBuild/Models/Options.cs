@@ -31,5 +31,8 @@ namespace TriggerRepoBuild.Models
 
         [Option("repofield", HelpText = "Name of repo field in input csv", Default ="repo_name", Required = true)]
         public string RepoField { get; set; }
+
+        [Option("forcerender", HelpText = "Force a rerender even if the repo isn't stuck", Default = false, Required = true)]
+        public bool ForceRender { get; set; }
     }
 }
