@@ -136,33 +136,38 @@ namespace TriggerRepoBuild
             {
                 Checkout = false
             };
+            if (Directory.Exists("tmp"))
+            {
+                RecursiveDelete("tmp");
+            }
             try
             {
 
             Repository.Clone($"{gogsBaseUrl}/{Uri.EscapeDataString(user)}/{Uri.EscapeDataString(repoName)}.git", "tmp", cloneOptions);
-            Repository repo = new Repository("tmp");
-            foreach (var commit in repo.Commits.Take(numberOfCommits))
-            {
-                CommitUser author = new CommitUser()
+                using (Repository repo = new Repository("tmp"))
                 {
-                    name = commit.Author.Name,
-                    email = commit.Author.Email
-                };
-                CommitUser committer = new CommitUser()
-                {
-                    name = commit.Committer.Name,
-                    email = commit.Committer.Email,
-                };
-                output.Add(new RequestCommit()
-                {
-                    author = author,
-                    committer = committer,
-                    id = commit.Id.Sha,
-                    message = commit.Message,
-                    url = $"{gogsBaseUrl}/{user}/{repoName}/commit/{commit.Id.Sha}"
-                });
-            }
-            repo.Dispose();
+                    foreach (var commit in repo.Commits.Take(numberOfCommits))
+                    {
+                        CommitUser author = new CommitUser()
+                        {
+                            name = commit.Author.Name,
+                            email = commit.Author.Email
+                        };
+                        CommitUser committer = new CommitUser()
+                        {
+                            name = commit.Committer.Name,
+                            email = commit.Committer.Email,
+                        };
+                        output.Add(new RequestCommit()
+                        {
+                            author = author,
+                            committer = committer,
+                            id = commit.Id.Sha,
+                            message = commit.Message,
+                            url = $"{gogsBaseUrl}/{user}/{repoName}/commit/{commit.Id.Sha}"
+                        });
+                    }
+                }
             }
             catch
             {
@@ -184,9 +189,9 @@ namespace TriggerRepoBuild
                 File.SetAttributes(file, FileAttributes.Normal);
                 File.Delete(file);
             }
-            bool deleted = false;
             foreach (var d in Directory.GetDirectories(dir))
             {
+                bool deleted = false;
                 while (!deleted)
                 {
                     try
