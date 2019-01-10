@@ -189,10 +189,9 @@ namespace TriggerRepoBuild
                 File.SetAttributes(file, FileAttributes.Normal);
                 File.Delete(file);
             }
-            bool deleted = false;
             foreach (var d in Directory.GetDirectories(dir))
             {
-                deleted = false;
+                bool deleted = false;
                 while (!deleted)
                 {
                     try
